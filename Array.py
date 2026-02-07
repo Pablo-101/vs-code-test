@@ -1,24 +1,41 @@
-foods = []
-prices = []
-total = 0
+welcome_prompt = "========= WELCOME ========="
+min_length = 6
+max_length = 15
+attempts = 0
+max_attempts = 3
+
+print(welcome_prompt)
 
 while True:
-    food = input("Enter a Food To Buy (Q to Quit): ")
-    if food.lower() == "q":
-        break
+
+    password = input("Enter a password (6-15 chars): ").strip() #Remove space
+    if len(password) < min_length:
+
+        attempts += 1
+        remaining = max_attempts - attempts
+        print(f"Password rejected, too short ({len(password)} characters). Minimum is {min_length}.")
+
+        if attempts >= max_attempts:
+            print("You are out of attempts. Bye")
+            break
+
+        attempts_word = "attempt" if remaining == 1 else "attempts"
+        print(f"You have {remaining} {attempts_word} left. Try again!")
+
+    elif len(password) > max_length:
+
+        attempts += 1
+        remaining = max_attempts - attempts
+        print(f"Password rejected, too long ({len(password)} characters). Maximum is {max_length}.")
+
+        if attempts >= max_attempts:
+            print("You are out of attempts. Bye")
+            break
+
+        attempts_word = "attempt" if remaining == 1 else "attempts"
+        print(f"You have {remaining} {attempts_word} left. Try again!")
+
+
     else:
-        price = float(input(f"Enter The Price of a {food.capitalize()}: $"))
-        foods.append(food)
-        prices.append(price)
-
-
-print("----- YOUR CART -----")
-for food in foods:
-    print(food.capitalize(), end= " ")
-
-for price in prices:
-    total += price
-
-print()
-print(f"Your Total is: ${total:.2f}")
-
+        print("Password accepted ✅")
+        break
