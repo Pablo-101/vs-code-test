@@ -1,41 +1,29 @@
-welcome_prompt = "========= WELCOME ========="
-min_length = 6
-max_length = 15
-attempts = 0
-max_attempts = 3
-
-print(welcome_prompt)
+done = False
 
 while True:
+    new_pass = input("Enter your new password: ")
 
-    password = input("Enter a password (6-15 chars): ").strip() #Remove space
-    if len(password) < min_length:
+    if len(new_pass) < 6:
+        print("Password can't be less than 6 characters.")
+        continue
+    if len(new_pass) > 12:
+        print("Password can't be more than 12 characters.")
+        continue
+    if not new_pass.isalpha():
+        print("Password can contain only letters.")
+        continue
 
-        attempts += 1
-        remaining = max_attempts - attempts
-        print(f"Password rejected, too short ({len(password)} characters). Minimum is {min_length}.")
+    # Confirmation loop with option to re-enter the new password
+    while True:
+        confirm_pass = input("Confirm your new password: ")
+        if new_pass == confirm_pass:
+            print("Password set successfully!")
+            done = True      # mark success
+            break            # break inner loop
+        print("Passwords don't match.")
+        choice = input("Type 'c' to try confirming again or 'n' to enter a new password: ").lower()
+        if choice == 'n':
+            break            # break inner loop and go back to outer loop
 
-        if attempts >= max_attempts:
-            print("You are out of attempts. Bye")
-            break
-
-        attempts_word = "attempt" if remaining == 1 else "attempts"
-        print(f"You have {remaining} {attempts_word} left. Try again!")
-
-    elif len(password) > max_length:
-
-        attempts += 1
-        remaining = max_attempts - attempts
-        print(f"Password rejected, too long ({len(password)} characters). Maximum is {max_length}.")
-
-        if attempts >= max_attempts:
-            print("You are out of attempts. Bye")
-            break
-
-        attempts_word = "attempt" if remaining == 1 else "attempts"
-        print(f"You have {remaining} {attempts_word} left. Try again!")
-
-
-    else:
-        print("Password accepted ✅")
-        break
+    if done:
+        break                # break outer loop because password was set
